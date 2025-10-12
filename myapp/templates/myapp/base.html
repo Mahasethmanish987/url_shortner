@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}URL Shortener{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+
+    {% include 'myapp/navbar.html' %}
+    {% include 'myapp/alerts.html'%}
+
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+
+    {% include 'myapp/footer.html' %}
+
+</body>
+</html>

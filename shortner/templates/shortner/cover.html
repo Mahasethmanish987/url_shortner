@@ -1,0 +1,15 @@
+ <div class="user-header">
+        <div class="header-content">
+            <div class="user-avatar">
+                {{ current_user.username|slice:":1" }}
+            </div>
+            
+            <div class="user-info">
+                <h1 class="user-name">{{ current_user.first_name }} {{ current_user.last_name }}</h1>
+                <div class="user-details">
+                    <span class="username">Username: {{ current_user.username }}</span>
+                    <span class="email">Email: {{ current_user.email }}</span>
+                </div>
+            </div>
+        </div>
+    </div>

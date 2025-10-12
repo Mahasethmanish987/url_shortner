@@ -1,0 +1,28 @@
+<nav>
+    <div class="logo">
+        <a href="{% url 'myapp:index' %}" class="nav-link-item" style="font-weight:bold; font-size:20px;">
+            URL Shortener
+        </a>
+    </div>
+    <ul>
+        <li><a href="{% url 'myapp:index' %}" class="nav-link-item">Home</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'shortner:dashboard'%}" class="nav-link-item">Dashboard</a></li>
+    <li>
+    <form action="{% url 'accounts:user_logout' %}" method="POST" class="logout-form" style="display:inline;">
+        {% csrf_token %}
+        <a href="#" class="nav-link-item" onclick="this.closest('form').submit(); return false;">
+            Logout
+        </a>
+    </form>
+</li>
+
+
+
+        
+        {% else %}
+        <li><a href="{% url 'accounts:user_login'%}" class="nav-link-item">Login</a></li>
+        <li><a href="{% url 'accounts:user_register'%}" class="nav-link-item">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>

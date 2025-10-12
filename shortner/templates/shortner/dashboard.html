@@ -1,0 +1,160 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - URL Shortener{% endblock %}
+
+{% block body %}
+    <!-- User Profile Header -->
+    {% include 'shortner/cover.html' %}
+    
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        {% include 'shortner/sidebar.html' %}
+        
+        <!-- Main Content Area (Scrollable) -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>Welcome back, {{ user.username }}!</h1>
+                <p>Here's an overview of your URL shortening activity and performance metrics.</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">🔗</div>
+                        <div class="stat-info">
+                            <div class="stat-number">24</div>
+                            <div class="stat-label">Total URLs</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">👆</div>
+                        <div class="stat-info">
+                            <div class="stat-number">1,247</div>
+                            <div class="stat-label">Total Clicks</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <div class="stat-number">18</div>
+                            <div class="stat-label">Active URLs</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-info">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Expired URLs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="{% url 'shortner:create_url' %}" class="btn btn-primary">
+                    <span>➕</span>
+                    <span>Create New URL</span>
+                </a>
+                <button class="btn btn-secondary">
+                    <span>📊</span>
+                    <span>View Analytics</span>
+                </button>
+                <button class="btn btn-secondary">
+                    <span>📋</span>
+                    <span>Export Data</span>
+                </button>
+            </div>
+
+            <!-- Recent URLs Section -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Recent URLs</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                
+                <div class="urls-list">
+                    {% if short_urls %}
+                        {% for item in short_urls %}
+                        <div class="url-item">
+                            <div class="url-main">
+                                <div class="url-info">
+                                    <div class="url-original">{{ item.original_url|truncatechars:60 }}</div>
+                                    <div class="url-details">
+                                        <span class="url-short">{{ item.short_code }}</span>
+                                        <span class="url-clicks">{{ item.total_clicks }} clicks</span>
+                                        <span class="url-date">{{ item.created_at|date:"M d, Y" }}</span>
+                                    </div>
+                                </div>
+                                <div class="url-actions">
+                                    <button class="btn-sm">Copy</button>
+                                    <button class="btn-sm">QR</button>
+                                    <a href="{% url 'shortner:edit_url' item.id %}" class="btn-sm">Edit</a>
+                                    <form method="post" action="{% url 'shortner:delete_url' item.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Delete this URL?')">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="url-qr">
+                                <div class="qr-placeholder">QR Code Preview</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-icon">🔗</div>
+                            <h3>No URLs Created Yet</h3>
+                            <p>Get started by creating your first shortened URL</p>
+                            <a href="{% url 'shortner:create_url' %}" class="btn btn-primary">Create Your First URL</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">👆</div>
+                        <div class="activity-details">
+                            <strong>short.ly/abc123</strong> was clicked
+                            <span class="activity-time">2 minutes ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">👆</div>
+                        <div class="activity-details">
+                            <strong>short.ly/x7f9k2</strong> was clicked
+                            <span class="activity-time">1 hour ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">➕</div>
+                        <div class="activity-details">
+                            New URL <strong>short.ly/mn8pq4</strong> created
+                            <span class="activity-time">Yesterday</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block title %}Register - URL Shortener{% endblock %}
+
+{% block body %}
+<div class="register-page">
+    <div class="register-card">
+        <h2 class="title">Create Your Account</h2>
+        <p class="subtitle">Join thousands of users shortening URLs</p>
+
+        {% if form.non_field_errors %}
+            <div class="nonfield-errors">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.confirm_password.label_tag }}
+                {{ form.confirm_password }}
+                {{ form.confirm_password.errors }}
+            </div>
+
+            <button type="submit" class="btn-submit">Create Account</button>
+        </form>
+
+        <p class="login-link">
+            Already have an account? <a href="{% url 'accounts:user_login' %}">Login here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
