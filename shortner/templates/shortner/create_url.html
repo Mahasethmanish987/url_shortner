@@ -3,216 +3,93 @@
 
 {% block title %}Create Short URL{% endblock %}
 
-{% block extra_css %}
-<style>
-    /* ====== Global Layout ====== */
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-    }
-
-    .main-content {
-        flex: 1;
-        padding: 30px;
-        box-sizing: border-box;
-    }
-
-    /* ====== Sticky Footer ====== */
-    footer {
-        background-color: #1f2937;
-        color: #fff;
-        text-align: center;
-        padding: 20px 10px;
-        border-top: 2px solid #38bdf8;
-        position: sticky;
-        bottom: 0;
-        width: 100%;
-        z-index: 100;
-    }
-
-    /* ====== Form Specific Styles ====== */
-    .url-form {
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        padding: 25px;
-        margin-top: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #333;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 14px;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        font-size: 16px;
-        transition: border-color 0.2s;
-        background-color: #f8fafc;
-    }
-
-    .form-control:focus {
-        outline: none;
-        border-color: #38bdf8;
-        box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-    }
-
-    .form-group .text-sm {
-        color: #64748b;
-    }
-
-    .form-actions {
-        display: flex;
-        gap: 12px;
-        margin-top: 20px;
-        justify-content: flex-end;
-    }
-
-    .btn-general {
-        background-color: #38bdf8;
-        color: #fff;
-        padding: 12px 25px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.3s;
-        font-size: 16px;
-        width: 150px;
-    }
-
-    .btn-general:hover {
-        background-color: #0ea5e9;
-        transform: translateY(-2px);
-    }
-
-    .btn-general.secondary {
-        background-color: #64748b;
-    }
-
-    .btn-general.secondary:hover {
-        background-color: #4c667d;
-    }
-
-    /* ====== Error message styling ====== */
-    .alert {
-        padding: 12px 20px;
-        border-radius: 6px;
-        margin-bottom: 10px;
-        font-size: 14px;
-        text-align: left;
-        position: relative;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .alert .close-btn {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-    .alert-error, .alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    .alert-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
-    .alert-warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
-
-    /* ====== Responsive adjustments ====== */
-    @media (max-width: 768px) {
-        .url-form {
-            padding: 20px 15px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-actions {
-            flex-direction: column;
-            align-items: stretch;
-        }
-    }
-</style>
-{% endblock %}
-
 {% block body %}
-<div class="container">
-    <!-- User Header Component -->
+    <!-- User Profile Header -->
     {% include 'shortner/cover.html' %}
+    
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        {% include 'shortner/sidebar.html' %}
+        
+        <!-- Main Content Area (Scrollable) -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Create New Short URL</h1>
+                <p>Quickly shorten your long URLs with custom options</p>
+            </div>
 
-    <div class="dashboard-header">
-        <h1 class="dashboard-title">Create New Short URL</h1>
-    </div>
-
-    <!-- Form Section -->
-    <div class="url-list">
-        <div class="url-list-header">
-            <h2 class="url-list-title">Enter URL Details</h2>
-        </div>
-
-        {% if form.errors %}
-        <div class="alerts-container">
-            {% for error in form.non_field_errors %}
-                <div class="alert alert-danger">
-                    {{ error }}
-                    <span class="close-btn" onclick="this.parentElement.style.display='none'">&times;</span>
-                </div>
-            {% endfor %}
-            {% for field in form %}
-                {% if field.errors %}
-                    {% for error in field.errors %}
-                        <div class="alert alert-danger">
-                            <strong>{{ field.label }}</strong>: {{ error }}
+            <!-- Form Section -->
+            <div class="form-container">
+                {% if form.errors %}
+                <div class="alerts-container">
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-error">
+                            {{ error }}
                             <span class="close-btn" onclick="this.parentElement.style.display='none'">&times;</span>
                         </div>
                     {% endfor %}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-error">
+                                    <strong>{{ field.label }}</strong>: {{ error }}
+                                    <span class="close-btn" onclick="this.parentElement.style.display='none'">&times;</span>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
                 {% endif %}
-            {% endfor %}
-        </div>
-        {% endif %}
 
-        <form method="post" class="url-form">
-            {% csrf_token %}
-            
-            <div class="form-group">
-                <label for="{{ form.original_url.id_for_label }}" class="font-semibold">Original URL</label>
-                <input type="url" id="{{ form.original_url.id_for_label }}" name="{{ form.original_url.name }}" class="form-control" placeholder="https://example.com" required>
-                <p class="text-sm text-gray-500 mt-1">Must start with http:// or https://</p>
-            </div>
+                <form method="post" class="url-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="{{ form.original_url.id_for_label }}">Original URL *</label>
+                        <input type="url" 
+                               id="{{ form.original_url.id_for_label }}" 
+                               name="{{ form.original_url.name }}" 
+                               class="form-control" 
+                               placeholder="https://example.com/very-long-url-path" 
+                               required
+                               value="{{ form.original_url.value|default:'' }}">
+                        <div class="form-help">Must start with http:// or https://</div>
+                    </div>
 
-            <div class="form-group">
-                <label for="{{ form.short_code.id_for_label }}" class="font-semibold">Custom Short Code (optional)</label>
-                <input type="text" id="{{ form.short_code.id_for_label }}" name="{{ form.short_code.name }}" class="form-control" placeholder="custom">
-            </div>
+                    <div class="form-group">
+                        <label for="{{ form.short_code.id_for_label }}">Custom Short Code</label>
+                        <input type="text" 
+                               id="{{ form.short_code.id_for_label }}" 
+                               name="{{ form.short_code.name }}" 
+                               class="form-control" 
+                               placeholder="my-custom-link"
+                               value="{{ form.short_code.value|default:'' }}">
+                        <div class="form-help">Optional - Leave blank for auto-generation</div>
+                    </div>
 
-            <div class="form-group">
-                <label for="{{ form.expiration_date.id_for_label }}" class="font-semibold">Expiration Date (optional)</label>
-                <input type="date" id="{{ form.expiration_date.id_for_label }}" name="{{ form.expiration_date.name }}" class="form-control">
-            </div>
+                    <div class="form-group">
+                        <label for="{{ form.expiration_date.id_for_label }}">Expiration Date</label>
+                        <input type="date" 
+                               id="{{ form.expiration_date.id_for_label }}" 
+                               name="{{ form.expiration_date.name }}" 
+                               class="form-control"
+                               value="{{ form.expiration_date.value|default:'' }}">
+                        <div class="form-help">Optional - URL will expire after this date</div>
+                    </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn-general">
-                    Create Short URL
-                </button>
-                <a href="{% url 'shortner:dashboard' %}" class="btn-general secondary">
-                    Cancel
-                </a>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span>🔗</span>
+                            Create Short URL
+                        </button>
+                        <a href="{% url 'shortner:dashboard' %}" class="btn btn-secondary">
+                            <span>←</span>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </form>
             </div>
-        </form>
+        </main>
     </div>
-</div>
 {% endblock %}

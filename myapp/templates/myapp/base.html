@@ -9,7 +9,12 @@
 <body>
 
     {% include 'myapp/navbar.html' %}
-    {% include 'myapp/alerts.html'%}
+    <div class="alert-container">
+        <!-- Alerts will be dynamically inserted here -->
+          {% include 'myapp/alerts.html'%}
+    </div>
+
+   
 
     <div class="container">
         {% block body %}{% endblock %}
