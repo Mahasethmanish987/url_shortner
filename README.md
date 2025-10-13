@@ -91,3 +91,34 @@ url_shortener_project/
 ├── db.sqlite3
 └── README.md
   ```
+## Installation (Windows)
+
+
+# Clone the repository
+git clone https://github.com/Mahasethmanish987/url_shortner.git
+cd urlshortner
+
+# Create and activate virtual environment
+python -m venv venv
+.\venv\Scripts\activate
+
+# Upgrade pip
+pip install --upgrade pip
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Apply database migrations
+python manage.py migrate
+
+# Create a superuser (optional)
+python manage.py createsuperuser
+
+# Collect static files
+python manage.py collectstatic
+
+# Run the development server
+python manage.py runserver
+
+# Open the app in browser
+https://url-shortner-i5rk.onrender.com
