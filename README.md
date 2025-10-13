@@ -57,3 +57,37 @@ The **URL Shortener** is a web application built using **Django** that allows us
 - Provide meaningful analytics and easy management for users.
 - Ensure clean, modular code using services for business logic.
 - Make the project easy for recruiters to run locally without extra setup.
+
+  ```
+  url_shortener_project/
+│
+├── accounts/
+│ ├── forms.py
+│ ├── views.py
+│ ├── Services/
+│ │ └── user_services.py
+│ └── templates/accounts/
+│
+├── shortner/
+│ ├── forms.py
+│ ├── models.py
+│ ├── views.py
+│ ├── Services/
+│ │ ├── url_shortner.py
+│ │ └── analytics_service.py
+│ ├── templates/shortner/
+│ └── tests/
+│ ├── test_forms.py
+│ ├── test_services.py
+│ └── test_views.py
+│
+├── myapp/
+│ └── templates/myapp/
+│
+├── static/
+├── templates/
+├── manage.py
+├── requirements.txt
+├── db.sqlite3
+└── README.md
+  ```
