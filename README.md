@@ -1,4 +1,5 @@
-# URL Shortener Project
+# URL Shortener Project   https://url-shortner-i5rk.onrender.com
+
 
 ## Project Overview
 The **URL Shortener** is a web application built using **Django** that allows users to easily shorten long URLs, track usage statistics, and manage their links. It provides a modern dashboard with analytics and supports QR code generation for quick access.
@@ -122,5 +123,4 @@ python manage.py runserver
 
 
 
-# Open the app in browser
-https://url-shortner-i5rk.onrender.com
+
