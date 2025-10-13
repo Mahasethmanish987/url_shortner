@@ -22,7 +22,7 @@ class ShortURL(models.Model):
         ordering = ['-created_at']
         indexes = [
         models.Index(fields=['short_code']),    
-        models.Index(fields=['is_expired']),
+       
     ]
     
     def expire(self):

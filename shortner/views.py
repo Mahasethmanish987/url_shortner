@@ -6,13 +6,16 @@ from django.contrib import messages
 from shortner.services.url_shortner import UrlWriteService,UrlService
 from django.utils import timezone
 from django.http import HttpResponse
+from io import BytesIO
+import qrcode
+from shortner.services.analytics_service import AnalyticsService
 
 class AuthRequiredMixin: 
     """Mixin to ensure the user is authenticated before accessing the view."""
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.info(request, 'You are not authorized to perform the action')
-            return redirect('myapp:index')
+            return redirect('accounts:login')
         return super().dispatch(request, *args, **kwargs)
 
 class DashboardView(AuthRequiredMixin,View): 
@@ -23,7 +26,16 @@ class DashboardView(AuthRequiredMixin,View):
 
     def get(self,request): 
         short_urls=ShortURL.objects.filter(user=request.user)
-        return render(request,self.template_name,{'short_urls':short_urls})
+        stats=AnalyticsService.get_all_urls_detail_of_user(request.user.id)
+        context={
+            'short_urls':short_urls,
+            'total_urls_of_user':stats['total_urls'],
+            'total_clicks_of_user':stats['total_clicks'],
+            'total_active_urls':stats['active_urls'],
+            'total_expired_urls':stats['expired_urls']
+        }
+
+        return render(request,self.template_name,context)
     
 
 class ShortUrlCreateView(AuthRequiredMixin,View): 
@@ -109,7 +121,7 @@ class ShortUrlEditView(AuthRequiredMixin,View):
 
 
 class DeleteShortUrlView(AuthRequiredMixin,View): 
-    
+
     def post(self,request,short_url_id): 
         try: 
             
@@ -123,3 +135,43 @@ class DeleteShortUrlView(AuthRequiredMixin,View):
         except PermissionError:
             messages.error(request,"You are not authorized to delete this URL.")
             return redirect('shortner:dashboard')
+        
+
+class GetAllShortUrlsView(AuthRequiredMixin,View): 
+    """View to fetch all short URLs for the authenticated user."""
+    template_name = 'shortner/all_urls.html'
+
+    def get(self,request): 
+        try: 
+            short_urls=ShortURL.objects.filter(user=request.user)
+            return render(request,self.template_name,{'short_urls':short_urls})
+        except Exception as e: 
+            messages.error(request,"An error occurred while fetching URLs.")
+            return redirect('shortner:dashboard')
+        
+
+
+class GetQRCode(AuthRequiredMixin,View): 
+
+    def get(self,request,short_code): 
+        try:
+       
+                 full_url = f"{request.scheme}://{request.get_host()}/{short_code}"
+                 
+                 
+                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                 qr.add_data(full_url)
+                 qr.make(fit=True)
+                 
+                 img = qr.make_image(fill_color="black", back_color="white")
+                 
+                
+                 buffer = BytesIO()
+                 img.save(buffer, format='PNG')
+                 buffer.seek(0)
+                 
+                 return HttpResponse(buffer.getvalue(), content_type='image/png')
+        
+        except Exception as e:
+               return HttpResponse(status=500)
+ 

@@ -32,7 +32,7 @@ class UserForm(forms.ModelForm):
         if len(username) < 3:
             raise forms.ValidationError("Username must be at least 3 characters long.")
 
-        #  max length 
+        
         if len(username) > 50:
             raise forms.ValidationError("Username cannot exceed 150 characters.")
 
@@ -56,7 +56,7 @@ class LoginForm(forms.Form):
     def clean_username(self): 
         username = self.cleaned_data.get('username')
 
-        # Check allowed characters: letters, numbers, underscores
+        
         if not re.match(r'^\w+$', username):
             raise forms.ValidationError(
                 "Username can only contain letters, numbers, and underscores."
@@ -66,7 +66,7 @@ class LoginForm(forms.Form):
         if len(username) < 3:
             raise forms.ValidationError("Username must be at least 3 characters long.")
 
-        #  max length (Django enforces <=150 by default)
+        
         if len(username) > 50:
             raise forms.ValidationError("Username cannot exceed 150 characters.")
 

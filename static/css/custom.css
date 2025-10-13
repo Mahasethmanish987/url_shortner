@@ -799,7 +799,7 @@ nav ul {
     margin-left: 260px; /* Space for sidebar */
 }
 
-/* ... rest of your existing dashboard CSS remains the same ... */
+
 
 /* Dashboard specific content styles */
 .welcome-section {
@@ -1120,8 +1120,8 @@ nav ul {
     }
 }
 
-/* ===== CREATE URL PAGE STYLES ===== */
-/* Specific styles for create URL page */
+
+/* ===== TABLE STYLES FOR ALL URLS PAGE ===== */
 
 .page-header {
     background: white;
@@ -1129,11 +1129,14 @@ nav ul {
     border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .page-header h1 {
     color: #1e293b;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.25rem 0;
     font-size: 1.8rem;
     font-weight: 700;
 }
@@ -1144,6 +1147,188 @@ nav ul {
     font-size: 1rem;
 }
 
+.page-header > div {
+    flex: 1;
+}
+
+/* Small Create Button */
+.btn-create {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-create:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.urls-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.urls-table th {
+    background: #f8fafc;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 0.9rem;
+}
+
+.urls-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.url-row:hover {
+    background: #f9fafb;
+}
+
+.url-expired {
+    opacity: 0.7;
+    background: #fef2f2;
+}
+
+/* URL Original Column */
+.url-original {
+    max-width: 300px;
+}
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+/* Short URL Column */
+.short-url-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.short-url {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #667eea;
+    font-weight: 600;
+    background: #f3f4f6;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.copy-btn:hover {
+    background: #e5e7eb;
+}
+
+/* Status Column */
+.status-badge {
+    padding: 0.3rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-badge.active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.expired {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Actions Column */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.btn-icon:hover {
+    background: #f3f4f6;
+}
+
+.btn-icon.btn-danger:hover {
+    background: #fee2e2;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .urls-table {
+        font-size: 0.8rem;
+    }
+    
+    .urls-table th,
+    .urls-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .url-original {
+        max-width: 150px;
+    }
+    
+    .truncate-text {
+        max-width: 150px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+
+/* ===== EDIT URL PAGE STYLES ===== */
+
+/* Form Styles */
 .form-container {
     background: white;
     border-radius: 12px;
@@ -1151,7 +1336,6 @@ nav ul {
     padding: 2rem;
 }
 
-/* Form Styles */
 .url-form {
     max-width: 600px;
 }
@@ -1190,6 +1374,27 @@ nav ul {
     color: #64748b;
     font-size: 0.85rem;
     margin-top: 0.5rem;
+}
+
+/* Simple Checkbox Styles */
+.checkbox-simple {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.checkbox-simple input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
+.checkbox-simple label {
+    margin: 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: #374151;
 }
 
 /* Alert Styles */
@@ -1302,5 +1507,192 @@ nav ul {
     
     .form-control {
         padding: 0.65rem 0.85rem;
+    }
+}
+
+
+/* ===== MODAL STYLES ===== */
+
+/* Modal Overlay */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+/* Modal Content Box */
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.modal-close {
+    color: #64748b;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #374151;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e2e8f0;
+    border-left: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    margin: 0;
+    color: #64748b;
+}
+
+/* QR Content */
+.qr-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.qr-image {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.5rem;
+    background: white;
+}
+
+.qr-info {
+    text-align: center;
+}
+
+.qr-url {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #667eea;
+    background: #f8fafc;
+    padding: 0.5rem;
+    border-radius: 4px;
+    word-break: break-all;
+    margin: 0 0 0.5rem 0;
+}
+
+.qr-help {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* QR Error */
+.qr-error {
+    padding: 2rem;
+    text-align: center;
+    color: #dc2626;
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.modal-footer .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 15% auto;
+        width: 95%;
+    }
+    
+    .modal-header {
+        padding: 1.25rem 1.25rem 0.75rem;
+    }
+    
+    .modal-body {
+        padding: 1.25rem;
+    }
+    
+    .modal-footer {
+        padding: 0.75rem 1.25rem 1.25rem;
+        flex-direction: column;
+    }
+    
+    .qr-image {
+        width: 180px;
+        height: 180px;
     }
 }

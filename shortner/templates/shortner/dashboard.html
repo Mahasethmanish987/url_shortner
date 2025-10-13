@@ -26,7 +26,7 @@
                     <div class="stat-header">
                         <div class="stat-icon">🔗</div>
                         <div class="stat-info">
-                            <div class="stat-number">24</div>
+                            <div class="stat-number">{{total_urls_of_user}}</div>
                             <div class="stat-label">Total URLs</div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                     <div class="stat-header">
                         <div class="stat-icon">👆</div>
                         <div class="stat-info">
-                            <div class="stat-number">1,247</div>
+                            <div class="stat-number">{{total_clicks_of_user}}</div>
                             <div class="stat-label">Total Clicks</div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                     <div class="stat-header">
                         <div class="stat-icon">📈</div>
                         <div class="stat-info">
-                            <div class="stat-number">18</div>
+                            <div class="stat-number">{{total_active_urls}}</div>
                             <div class="stat-label">Active URLs</div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                     <div class="stat-header">
                         <div class="stat-icon">⏰</div>
                         <div class="stat-info">
-                            <div class="stat-number">2</div>
+                            <div class="stat-number">{{total_expired_urls}}</div>
                             <div class="stat-label">Expired URLs</div>
                         </div>
                     </div>
@@ -69,14 +69,7 @@
                     <span>➕</span>
                     <span>Create New URL</span>
                 </a>
-                <button class="btn btn-secondary">
-                    <span>📊</span>
-                    <span>View Analytics</span>
-                </button>
-                <button class="btn btn-secondary">
-                    <span>📋</span>
-                    <span>Export Data</span>
-                </button>
+                
             </div>
 
             <!-- Recent URLs Section -->
@@ -101,18 +94,18 @@
                                 </div>
                                 <div class="url-actions">
                                     <button class="btn-sm">Copy</button>
-                                    <button class="btn-sm">QR</button>
+                                    <button class="btn-icon" onclick="showQRCode('{{ item.short_code }}')" title="QR Code">
+          QR Code
+        </button>
                                     <a href="{% url 'shortner:edit_url' item.id %}" class="btn-sm">Edit</a>
                                     <form method="post" action="{% url 'shortner:delete_url' item.id %}" style="display: inline;">
                                         {% csrf_token %}
                                         <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Delete this URL?')">Delete</button>
                                     </form>
                                 </div>
-                            </div>
-                            <div class="url-qr">
-                                <div class="qr-placeholder">QR Code Preview</div>
-                            </div>
-                        </div>
+                            
+                            
+                        
                         {% endfor %}
                     {% else %}
                         <div class="empty-state">
@@ -126,37 +119,12 @@
             </div>
 
             <!-- Recent Activity -->
-            <div class="section-card">
-                <div class="section-header">
-                    <h2>Recent Activity</h2>
-                    <a href="#" class="view-all">View All</a>
-                </div>
-                
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon">👆</div>
-                        <div class="activity-details">
-                            <strong>short.ly/abc123</strong> was clicked
-                            <span class="activity-time">2 minutes ago</span>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">👆</div>
-                        <div class="activity-details">
-                            <strong>short.ly/x7f9k2</strong> was clicked
-                            <span class="activity-time">1 hour ago</span>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">➕</div>
-                        <div class="activity-details">
-                            New URL <strong>short.ly/mn8pq4</strong> created
-                            <span class="activity-time">Yesterday</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </main>
     </div>
 </div>
+{% include 'shortner/qr_modal.html' %}
+{% endblock %}
+{% block scripts %}
+   <script src="{% static 'js/modal.js' %}"></script>
 {% endblock %}

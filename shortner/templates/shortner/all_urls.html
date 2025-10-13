@@ -1,0 +1,112 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block title %}My URLs - URL Shortener{% endblock %}
+
+{% block body %}
+    <!-- User Profile Header -->
+    {% include 'shortner/cover.html' %}
+
+    <div class="dashboard-layout-wrapper">
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            {% include 'shortner/sidebar.html' %}
+            
+            <!-- Main Content Area (Scrollable) -->
+            <main class="main-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1>All My URLs</h1>
+                    <p>Manage all your shortened URLs ({{ short_urls|length }} total)</p>
+                    <a href="{% url 'shortner:create_url' %}" class="btn-create">
+                        <span>➕</span>
+                        Create URL
+                    </a>
+                </div>
+
+                <!-- URLs Table Section -->
+                <div class="section-card">
+                    <div class="table-container">
+                        {% if short_urls %}
+                            <table class="urls-table">
+                                <thead>
+                                    <tr>
+                                        <th>Original URL</th>
+                                        <th>Short URL</th>
+                                        <th>Clicks</th>
+                                        <th>Created</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in short_urls %}
+                                    <tr class="url-row {% if item.is_expired %}url-expired{% endif %}">
+                                        <td class="url-original">
+                                            <div class="truncate-text" title="{{ item.original_url }}">
+                                                {{ item.original_url }}
+                                            </div>
+                                        </td>
+                                        <td class="url-short">
+                                            <div class="short-url-container">
+                                                <span class="short-url">{{ item.short_code }}</span>
+                                                <button class="copy-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/{{ item.short_code }}')" title="Copy URL">
+                                                    📋
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td class="url-clicks">
+                                            {{ item.total_clicks }}
+                                        </td>
+                                        <td class="url-date">
+                                            {{ item.created_at|date:"M d, Y" }}
+                                        </td>
+                                        <td class="url-status">
+                                            {% if item.is_expired %}
+                                                <span class="status-badge expired">Expired</span>
+                                            {% else %}
+                                                <span class="status-badge active">Active</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="url-actions">
+                                            <div class="action-buttons">
+                                                <button class="btn-icon" onclick="showQRCode('{{ item.short_code }}')" title="QR Code">
+            QR 
+                </button>
+                                                <a href="{% url 'shortner:edit_url' item.id %}" class="btn-icon" title="Edit">✏️</a>
+                                                <form method="post" action="{% url 'shortner:delete_url' item.id %}" style="display: inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn-icon btn-danger" title="Delete" onclick="return confirm('Delete this URL?')">🗑️</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <div class="empty-state">
+                                <div class="empty-icon">🔗</div>
+                                <h3>No URLs Created Yet</h3>
+                                <p>Get started by creating your first shortened URL</p>
+                                <a href="{% url 'shortner:create_url' %}" class="btn btn-primary">Create Your First URL</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('URL copied to clipboard!');
+            });
+        }
+    </script>
+    {% include 'shortner/qr_modal.html' %}
+{% endblock %}
+{% block scripts %}
+   <script src="{% static 'js/modal.js' %}"></script>
+{% endblock %}

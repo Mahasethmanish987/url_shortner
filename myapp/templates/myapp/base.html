@@ -10,7 +10,7 @@
 
     {% include 'myapp/navbar.html' %}
     <div class="alert-container">
-        <!-- Alerts will be dynamically inserted here -->
+       
           {% include 'myapp/alerts.html'%}
     </div>
 
@@ -21,6 +21,8 @@
     </div>
 
     {% include 'myapp/footer.html' %}
+     {% block scripts %}
+     {% endblock %}
 
 </body>
 </html>
