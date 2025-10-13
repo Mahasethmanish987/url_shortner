@@ -110,7 +110,7 @@ class ShortUrlEditView(AuthRequiredMixin,View):
             form=ShortURLUpdateForm(request.POST,instance=short_url,user=request.user)
             if form.is_valid(): 
                 validate_data=form.cleaned_data
-                print(validate_data,"validated data")
+                
                 UrlWriteService.edit_short_url(short_url_id,request.user.id,validate_data)
                 messages.success(request,"Short URL updated successfully.")
                 return redirect('shortner:dashboard')
