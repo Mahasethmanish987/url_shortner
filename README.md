@@ -93,10 +93,10 @@ url_shortener_project/
   ```
 ## Installation (Windows)
 
-
+```powershell
 # Clone the repository
 git clone https://github.com/Mahasethmanish987/url_shortner.git
-cd urlshortner
+cd url_shortner
 
 # Create and activate virtual environment
 python -m venv venv
@@ -119,6 +119,8 @@ python manage.py collectstatic
 
 # Run the development server
 python manage.py runserver
+
+
 
 # Open the app in browser
 https://url-shortner-i5rk.onrender.com
