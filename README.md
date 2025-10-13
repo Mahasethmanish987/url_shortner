@@ -58,8 +58,8 @@ The **URL Shortener** is a web application built using **Django** that allows us
 - Ensure clean, modular code using services for business logic.
 - Make the project easy for recruiters to run locally without extra setup.
 
-  ```
-  url_shortener_project/
+```
+url_shortener_project/
 │
 ├── accounts/
 │ ├── forms.py
