@@ -15,7 +15,7 @@ class AuthRequiredMixin:
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             messages.info(request, 'You are not authorized to perform the action')
-            return redirect('accounts:login')
+            return redirect('accounts:user_login')
         return super().dispatch(request, *args, **kwargs)
 
 class DashboardView(AuthRequiredMixin,View): 
