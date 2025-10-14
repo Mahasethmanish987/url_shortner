@@ -12,8 +12,8 @@ class UserWriteService:
     @staticmethod
     def create_user(username, email, password)->UserDTO: 
         
-        user=User.objects.create_user(username=username, email=email)
-        user.set_password(password)
+        user=User.objects.create_user(username=username, email=email,password=password)
+        
         user.save()
         return UserDTO(username=user.username, email=user.email)
     
