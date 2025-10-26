@@ -14,8 +14,16 @@ class RegisterUserView(View):
         1. Display registration form on GET request
         2. Process form data and create user on POST request
     """
+
     
     template_name='accounts/user_register.html'
+    def dispatch(self, request, *args, **kwargs):
+        """prevent logged in users from accessing the login page """
+
+        if request.user.is_authenticated:
+            messages.info(request, "You are already logged in.")
+            return redirect('myapp:index')
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self,request): 
         user_form=UserForm()
