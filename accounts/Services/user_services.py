@@ -14,7 +14,7 @@ class UserWriteService:
         
         user=User.objects.create_user(username=username, email=email,password=password)
         
-        user.save()
+        
         return UserDTO(username=user.username, email=user.email)
     
     
